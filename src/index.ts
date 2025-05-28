@@ -3,7 +3,7 @@ dotenv.config();
 
 import config from 'config';
 import app from './app';
-import './models/mongoose';
+import './models';
 
 const env = config.get<string>('env');
 const envVariables = config.get<{ prod: string; dev: string; test: string }>(
