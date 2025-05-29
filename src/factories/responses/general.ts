@@ -4,7 +4,7 @@ interface SuccessResponseParams {
   message: string;
   statusCode: number;
   data: any;
-  key: string;
+  key?: string;
 }
 
 interface DataOperationParams {
@@ -22,7 +22,7 @@ export default class GeneralResponsesFactory {
     return new AppResponse({
       message,
       statusCode,
-      body: { [key]: data },
+      body: key ? { [key]: data } : data,
     });
   }
 
