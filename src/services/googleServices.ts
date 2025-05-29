@@ -79,4 +79,19 @@ export default class GoogleServices {
       return { success: false, error };
     }
   }
+
+  static async getOneCalendarEvent({ calendar, eventId }: any): Promise<any> {
+    try {
+      const findEvent = await calendar.events.get({
+        calendarId: 'primary',
+        eventId,
+      });
+
+      if (findEvent.data.status === 'cancelled') return { success: false };
+
+      return { success: true, data: findEvent };
+    } catch (err) {
+      return { success: false, error: err };
+    }
+  }
 }
