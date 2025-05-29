@@ -33,12 +33,12 @@ const checkTokenExpiryAndRefresh = async ({
 }: CheckTokenExpiryAndRefreshParams): Promise<{ success: boolean }> => {
   try {
     const isTokenExpired =
-      tokenObj?.expiry_date && tokenObj.expiry_date > Date.now();
+      tokenObj?.expiry_date && tokenObj.expiry_date < Date.now();
 
+    auth.setCredentials(tokenObj);
     if (!isTokenExpired) return { success: true };
 
     // Refresh token
-    auth.setCredentials(tokenObj);
     const refreshedToken = await auth.refreshAccessToken();
 
     const updateResult = await PlatformsModel.updateOne(
@@ -46,8 +46,6 @@ const checkTokenExpiryAndRefresh = async ({
       { tokens: refreshedToken.credentials },
       { new: true }
     );
-
-    console.log(updateResult);
 
     if (updateResult.modifiedCount === 0) return { success: false };
 

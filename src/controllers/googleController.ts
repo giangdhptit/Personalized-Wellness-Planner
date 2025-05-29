@@ -4,9 +4,8 @@ import { GeneralErrorsFactory, GeneralResponsesFactory } from '../factories';
 import config from 'config';
 import { googleUtils } from '../utils';
 import { people as googlePeopleApi } from '@googleapis/people';
-import { gmail as gmailApi } from '@googleapis/gmail';
-import AuthErrorsFactory from '../factories/errors/AuthErrors';
 import { calendar as googleCalanderApi } from '@googleapis/calendar';
+import crypto from 'crypto';
 
 export default class GoogleController {
   static async generateAuthUrl(
@@ -64,8 +63,6 @@ export default class GoogleController {
         email: peopleResponse.data.emailAddresses?.[0]?.value || '',
       });
 
-      console.log(tokens);
-
       let doc;
       if (findConnection.success && findConnection.data) {
         doc = await GoogleServices.updateConnection({
@@ -92,32 +89,6 @@ export default class GoogleController {
         }
       }
 
-      // const gmail = gmailApi({
-      //   auth: auth,
-      //   version: 'v1',
-      // });
-
-      // const response = await gmail.users.messages.list({
-      //   userId: 'me',
-      //   maxResults: 10,
-      //   labelIds: ['INBOX'],
-      // });
-
-      // console.log(response.data.messages);
-
-      // const messages = response.data?.messages?.[0] || null;
-
-      // if (messages) {
-      //   const messageDetails = await gmail.users.messages.get({
-      //     userId: 'me',
-      //     id: messages.id!,
-      //   });
-
-      //   console.log(messageDetails.data.payload);
-      // } else {
-      //   console.log('No messages found.');
-      // }
-
       return next(
         GeneralResponsesFactory.successResponse({
           data: peopleResponse.data,
@@ -127,7 +98,6 @@ export default class GoogleController {
         })
       );
     } catch (error) {
-      console.error(error);
       next(error);
     }
   }
@@ -139,37 +109,191 @@ export default class GoogleController {
   ): Promise<void> {
     try {
       const { auth } = googleUtils;
+      const limit = parseInt(req.query.limit as string) || 10;
+      const nextPageToken = (req.query.pageToken as string) || '';
+      const startDate = (req.query.startDate as string) || '';
+      const endDate = (req.query.endDate as string) || '';
 
-      console.log(auth);
-
-      const calendar = googleCalanderApi({
-        auth: auth,
-        version: 'v3',
-      });
-
-      const now = new Date();
-      const oneWeekLater = new Date();
-      oneWeekLater.setDate(now.getDate() + 7);
+      const calendar = googleCalanderApi({ auth, version: 'v3' });
 
       const response = await calendar.events.list({
-        calendarId: 'primary', // or use specific calendar ID
-        timeMin: now.toISOString(),
-        timeMax: oneWeekLater.toISOString(),
-        maxResults: 20,
+        calendarId: 'primary',
+        timeMin: new Date(startDate).toISOString(),
+        timeMax: new Date(endDate).toISOString(),
+        maxResults: limit,
         singleEvents: true,
         orderBy: 'startTime',
+        fields:
+          'items(id,summary,status,created,updated,start,end,attendees,hangoutLink),nextPageToken',
+        pageToken: nextPageToken,
       });
 
       return next(
         GeneralResponsesFactory.successResponse({
-          data: response.data,
-          key: 'gmailMessages',
-          message: 'Gmail messages retrieved successfully',
+          data: response?.data,
+          message: 'Google calendar events retrieved successfully',
           statusCode: 200,
         })
       );
     } catch (error) {
-      console.error(error);
+      next(error);
+    }
+  }
+
+  static async createGoogleCalendarEvent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { auth } = googleUtils;
+      const calendar = googleCalanderApi({ auth, version: 'v3' });
+      const reqData = req.body;
+
+      const attendees = reqData.attendees.map((attendee: string) => ({
+        email: attendee,
+      }));
+
+      const response = await calendar.events.insert({
+        calendarId: 'primary',
+        requestBody: {
+          summary: reqData.summary,
+          description: reqData.description,
+          start: {
+            dateTime: new Date(reqData.startTime).toISOString(),
+          },
+          end: {
+            dateTime: new Date(reqData.endTime).toISOString(),
+          },
+          attendees,
+          conferenceData: reqData.isVideoLink
+            ? {
+                createRequest: {
+                  requestId: crypto.randomUUID(),
+                  conferenceSolutionKey: {
+                    type: 'hangoutsMeet',
+                  },
+                },
+              }
+            : { createRequest: {} },
+        },
+        conferenceDataVersion: 1,
+        fields:
+          'id,summary,description,status,created,updated,attendees,start,end,attendees,hangoutLink',
+      });
+
+      return next(
+        GeneralResponsesFactory.successResponse({
+          data: response?.data,
+          message: 'Google calendar event created successfully',
+          statusCode: 200,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateGoogleCalendarEvent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const eventId = req.params.eventId;
+      const { auth } = googleUtils;
+      const calendar = googleCalanderApi({ auth, version: 'v3' });
+
+      const { success } = await GoogleServices.getOneCalendarEvent({
+        eventId,
+        calendar,
+      });
+
+      if (!success)
+        return next(
+          GeneralErrorsFactory.notFoundErr({ customMessage: 'Event not found' })
+        );
+
+      const reqData = req.body;
+
+      const attendees = reqData.attendees.map((attendee: string) => ({
+        email: attendee,
+      }));
+
+      const response = await calendar.events.update({
+        calendarId: 'primary',
+        eventId,
+        requestBody: {
+          summary: reqData.summary,
+          description: reqData.description,
+          start: {
+            dateTime: new Date(reqData.startTime).toISOString(),
+          },
+          end: {
+            dateTime: new Date(reqData.endTime).toISOString(),
+          },
+          attendees,
+          conferenceData: reqData.isVideoLink
+            ? {
+                createRequest: {
+                  requestId: crypto.randomUUID(),
+                  conferenceSolutionKey: {
+                    type: 'hangoutsMeet',
+                  },
+                },
+              }
+            : { createRequest: {} },
+        },
+        conferenceDataVersion: 1,
+        fields:
+          'id,summary,description,status,created,updated,attendees,start,end,attendees,hangoutLink',
+      });
+
+      return next(
+        GeneralResponsesFactory.successResponse({
+          data: response?.data,
+          message: 'Google calendar event updated successfully',
+          statusCode: 200,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteGoogleCalendarEvent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const eventId = req.params.eventId;
+      const { auth } = googleUtils;
+      const calendar = googleCalanderApi({ auth, version: 'v3' });
+
+      const { success } = await GoogleServices.getOneCalendarEvent({
+        eventId,
+        calendar,
+      });
+
+      if (!success)
+        return next(
+          GeneralErrorsFactory.notFoundErr({ customMessage: 'Event not found' })
+        );
+
+      await calendar.events.delete({
+        calendarId: 'primary',
+        eventId,
+      });
+
+      return next(
+        GeneralResponsesFactory.successResponse({
+          data: {},
+          message: 'Google calendar event deleted successfully',
+          statusCode: 200,
+        })
+      );
+    } catch (error) {
       next(error);
     }
   }
