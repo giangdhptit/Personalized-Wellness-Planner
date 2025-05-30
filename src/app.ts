@@ -28,4 +28,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(errorMiddleware);
 app.use(finalResponseMiddleware);
 
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+
 export default app;
