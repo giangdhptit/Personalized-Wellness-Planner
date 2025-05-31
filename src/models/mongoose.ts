@@ -14,3 +14,9 @@ conn.on('error', () => console.log('Connection error'));
 conn.on('open', () => console.log('Connected to MongoDB'));
 
 export default conn;
+
+// mongoose.connect(process.env.MONGO_DB_CONNECT_STRING!)
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch((err) => console.error("MongoDB connection error:", err));
+
+// export default mongoose;

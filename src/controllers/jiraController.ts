@@ -9,12 +9,6 @@ export default class JiraController {
     res.json(tokenData);
   }
 
-//   static async getProjects(req: Request, res: Response) {
-//     const token = req.headers.authorization?.split(' ')[1];
-//     const projects = await JiraServices.fetchProjects(token);
-//     res.json(projects);
-//   }
-
   static async getProjects(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const token = req.headers.authorization?.split(' ')[1];

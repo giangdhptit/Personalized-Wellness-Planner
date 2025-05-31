@@ -2,6 +2,8 @@
 
 import { Schema, Document, Types, model } from 'mongoose';
 import { platformsConstants } from '../constants';
+import PlatformModel from '../models/PlatformsModel';
+import mongoose from "mongoose";
 
 const { PLATFORMS } = platformsConstants;
 
@@ -17,16 +19,35 @@ export interface IPlatform extends Document {
 }
 
 // 2. Create the schema
+// const platformsSchema = new Schema<IPlatform>(
+//   {
+//     type: {
+//       type: String,
+//       enum: Object.values(PLATFORMS).map(platform => platform.value),
+//       required: true,
+//     },
+//     name: { type: String, required: true },
+//     email: { type: String, required: true },
+//     tokens: { type: Object, required: true },
+//     connectorId: { type: Schema.Types.ObjectId, ref: 'User', required: false },
+//   },
+//   { timestamps: true }
+// );
+
 const platformsSchema = new Schema<IPlatform>(
   {
-    type: {
-      type: String,
-      enum: Object.values(PLATFORMS).map(platform => platform.value),
-      required: true,
-    },
+    type: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
-    tokens: { type: Object, required: true },
+    tokens: {
+      access_token: String,
+      refresh_token: String,
+      scope: String,
+      token_type: String,
+      expires_in: Number,
+      // expiry_date: Number,
+      // refresh_token_expires_in: Number
+    },
     connectorId: { type: Schema.Types.ObjectId, ref: 'User', required: false },
   },
   { timestamps: true }
@@ -34,3 +55,4 @@ const platformsSchema = new Schema<IPlatform>(
 
 // 3. Export the model with types
 export default model<IPlatform>('Platforms', platformsSchema);
+

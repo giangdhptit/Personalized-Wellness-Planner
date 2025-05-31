@@ -7,9 +7,10 @@ export const apiPrefix = '/api/v1/';
 
 export const prepareV1Routes = (app: Application): void => {
   app.use(`${apiPrefix}google`, googleRoutes);
+  app.use(`${apiPrefix}jira`, jiraRoutes);
 };
 
-const router = express.Router();
-router.use('/jira', jiraRoutes); // /api/v1/jira
+// const router = express.Router();
+// router.use('/jira', jiraRoutes); // /api/v1/jira\
 
-export default router;
+// export default router;
