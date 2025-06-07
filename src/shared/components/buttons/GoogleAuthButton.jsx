@@ -10,7 +10,6 @@ const GoogleAuthButton = ({ mode = "login" }) => {
 
   return (
     <button onClick={handleClick} className={styles.googleButton}>
-      <img src="/google-icon.jpg" alt="" className={styles.icon} />
       {mode === "signup" ? "Sign up with Google" : "Login with Google"}
     </button>
   );
