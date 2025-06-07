@@ -5,12 +5,12 @@ const GoogleAuthButton = ({ mode = "login" }) => {
   const handleClick = () => {
     const baseUrl = "http://localhost:8080/oauth2/authorization/google";
     const url = mode === "signup" ? `${baseUrl}?source=signup` : baseUrl;
-    window.location.href = url;
+    window.location.assign(url);
   };
 
   return (
     <button onClick={handleClick} className={styles.googleButton}>
-      {mode === "signup" ? "Sign up with Google" : "Login with Google"}
+      aria-label={mode === "signup" ? "Sign up with Google" : "Login with Google"}
     </button>
   );
 };
