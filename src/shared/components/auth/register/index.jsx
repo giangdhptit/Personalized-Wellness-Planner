@@ -22,6 +22,8 @@ import { AUTH_ROUTES } from "@/shared/utils/paths";
 
 // Redux
 import { createUser } from "@/shared/redux/slices/user";
+import GoogleAuthButton from "@/components/buttons/GoogleAuthButton";
+import {register} from "next/dist/client/components/react-dev-overlay/pages/client";
 
 export default function Registerform() {
   const router = useRouter();
@@ -108,6 +110,21 @@ export default function Registerform() {
           </Grid>
         </Grid>
 
+        {/* Terms and Conditions */}
+        <div className={styles.termsCheckbox}>
+          <input
+            type="checkbox"
+            id="terms"
+            {...register("terms")}
+            />
+          <label htmlFor="terms">
+            I accept the <a href="/terms" target="_blank">Terms and Conditions</a>
+          </label>
+        </div>
+        {errors.terms && (
+        <p className={styles.errorText}>{errors.terms.message}</p>
+        )}
+
         <PrimaryButton
           buttonText="Create Account"
           type="submit"
@@ -115,9 +132,13 @@ export default function Registerform() {
           loading={isLoading}
         />
 
+        <div className={styles.divider}>or</div>
+
+      <GoogleAuthButton mode="signup" />
+
         <div className={styles.alreadyHaveAccount}>
           <span>
-            Don't have an account? <Link href={AUTH_ROUTES.login}>Login</Link>
+            Have an account? <Link href={AUTH_ROUTES.login}>Login</Link>
           </span>
         </div>
       </form>

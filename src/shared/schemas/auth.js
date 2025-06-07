@@ -28,6 +28,8 @@ export const registerUserSchema = Yup.object().shape({
   confirmPassword: commonFieldsSchema.confirmPassword,
   firstName: Yup.string().min(1).max(255).required("First name is required"),
   lastName: Yup.string().min(1).max(255).required("Last name is required"),
+  terms: Yup.boolean().oneOf([true], "You must accept the terms and conditions")
+   .required("You must accept the terms and conditions"),
 });
 
 export const sendResetPasswordLinkSchema = Yup.object().shape({
