@@ -7,5 +7,7 @@
   "mongoUri": "MONGO_DB_CONNECT_STRING",
   "googleClientId": "GOOGLE_CLIENT_ID",
   "googleClientSecret": "GOOGLE_CLIENT_SECRET",
-  "googleRedirectUri": "GOOGLE_REDIRECT_URI"
+  "googleRedirectUri": "GOOGLE_REDIRECT_URI",
+  "jiraClientId": "JIRA_CLIENT_ID",
+  "jiraClientSecret": "JIRA_CLIENT_SECRET"
 }

@@ -6,6 +6,7 @@ type Platform = {
 
 type Platforms = {
   google: Platform;
+  jira: Platform;
 };
 
 const PLATFORMS: Platforms = {
@@ -13,6 +14,11 @@ const PLATFORMS: Platforms = {
     value: 'GOOGLE',
     sm: 'google',
     lg: 'Google',
+  },
+  jira: {
+    value: 'JIRA',
+    sm: 'jira',
+    lg: 'Jira',
   },
 };
 

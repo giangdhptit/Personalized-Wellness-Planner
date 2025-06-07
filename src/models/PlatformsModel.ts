@@ -1,5 +1,3 @@
-// models/platforms.model.ts
-
 import { Schema, Document, Types, model } from 'mongoose';
 import { platformsConstants } from '../constants';
 
@@ -12,6 +10,7 @@ export interface IPlatform extends Document {
   email: string;
   tokens: Record<string, any>; // or a more specific type if known
   connectorId?: Types.ObjectId; // Optional field
+  cloudId?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -27,6 +26,7 @@ const platformsSchema = new Schema<IPlatform>(
     name: { type: String, required: true },
     email: { type: String, required: true },
     tokens: { type: Object, required: true },
+    cloudId: { type: String, required: false },
     connectorId: { type: Schema.Types.ObjectId, ref: 'User', required: false },
   },
   { timestamps: true }
