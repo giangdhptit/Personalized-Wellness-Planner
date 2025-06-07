@@ -45,8 +45,18 @@
   color: var(--primary-color);
 }
 
+.divider {
+  text-align: center;
+  margin: 5px 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  color: #888;
+}
+
 @media screen and (max-width: 576px) {
   .title {
     font-size: 30px;
   }
 }
+
