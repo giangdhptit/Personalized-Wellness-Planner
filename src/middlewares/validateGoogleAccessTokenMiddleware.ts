@@ -6,12 +6,6 @@ import { platformsConstants } from '../constants';
 
 const { auth } = googleUtils;
 
-interface CustomRequest extends Request {
-  user?: {
-    id?: string;
-  };
-}
-
 interface TokenObject {
   access_token?: string;
   refresh_token?: string;
@@ -56,12 +50,12 @@ const checkTokenExpiryAndRefresh = async ({
 };
 
 const validateGoogleAccessTokenMiddleware = async (
-  req: CustomRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.user?.id || '6836ed205b7ce59ca514f939'; // Hardcoded for testing
+    const userId = req.jwtToken?.id;
 
     const findUserConnection = await PlatformsModel.findOne({
       type: platformsConstants.PLATFORMS.google.value,

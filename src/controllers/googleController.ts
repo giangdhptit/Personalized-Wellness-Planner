@@ -15,6 +15,7 @@ export default class GoogleController {
   ): Promise<void> {
     try {
       const { auth, scopes } = googleUtils;
+      const jwtUser = req.jwtToken;
 
       const url = auth.generateAuthUrl({
         access_type: 'offline',
@@ -23,7 +24,7 @@ export default class GoogleController {
 
       return next(
         GeneralResponsesFactory.successResponse({
-          data: url,
+          data: url + '&state=' + jwtUser.id,
           key: 'url',
           message: 'Google authentication URL generated successfully',
           statusCode: 200,
@@ -42,6 +43,7 @@ export default class GoogleController {
     try {
       const { code } = req.query;
       const { auth } = googleUtils;
+      const connectorId = req.query.state as string;
 
       if (!code)
         return res.redirect(
@@ -71,6 +73,7 @@ export default class GoogleController {
           name: peopleResponse.data.names?.[0]?.displayName || '',
           email: peopleResponse.data.emailAddresses?.[0]?.value || '',
           tokens: tokens.tokens,
+          connectorId,
         });
       } else {
         doc = await GoogleServices.saveConnection({
@@ -78,6 +81,7 @@ export default class GoogleController {
           name: peopleResponse.data.names?.[0]?.displayName || '',
           email: peopleResponse.data.emailAddresses?.[0]?.value || '',
           tokens: tokens.tokens,
+          connectorId,
         });
 
         if (!doc.success) {
