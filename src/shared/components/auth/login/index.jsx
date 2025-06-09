@@ -1,6 +1,10 @@
 "use client";
 import styles from "./styles.module.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+// MUI
+import Box from "@mui/material/Box";
 
 // Utils, Schemas, Hooks
 import useSubmitFunction from "@/shared/hooks/useSubmitFunction";
@@ -18,10 +22,10 @@ import PrimaryButton from "@/shared/components/buttons/primaryButton";
 
 // Redux
 import { signInUser } from "@/shared/redux/slices/user";
-import GoogleAuthButton from "@/components/buttons/GoogleAuthButton";
 
 export default function Loginform() {
   const { isLoading, onSubmitFunction } = useSubmitFunction();
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -37,7 +41,6 @@ export default function Loginform() {
       data,
     });
   };
-
 
   return (
     <div className={styles.container}>
@@ -65,18 +68,27 @@ export default function Loginform() {
         />
 
         <div className={styles.forgetPassword}>
-          <Link href={"/auth/forgotpassword"}>
-            Forgot Password?
-          </Link>
+          <Link href={"/auth/forgotpassword"}>Forgot Password?</Link>
         </div>
 
         <div className={styles.submitButtonWrapper}>
           <PrimaryButton buttonText={"Login"} loading={isLoading} />
         </div>
 
-        <div className={styles.divider}>or</div>
+        <Box sx={{ my: 1, textAlign: "center", color: "text.secondary" }}>
+          Continue with
+        </Box>
 
-        <GoogleAuthButton mode="login" />
+        <PrimaryButton
+          buttonText="Google"
+          type="button"
+          sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "red" } }}
+          onClick={() =>
+            router.push(
+              `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
+            )
+          }
+        />
 
         <div className={styles.dontHaveAccount}>
           <span>
