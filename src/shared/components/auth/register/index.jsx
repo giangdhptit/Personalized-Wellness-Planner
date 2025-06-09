@@ -5,6 +5,7 @@ import Link from "next/link";
 
 // MUI
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 // Components
 import ControlledPasswordInput from "@/shared/components/inputs/passwordInput";
@@ -21,9 +22,7 @@ import { registerUserSchema } from "@/shared/schemas/auth";
 import { AUTH_ROUTES } from "@/shared/utils/paths";
 
 // Redux
-import { createUser } from "@/shared/redux/slices/user";
-import GoogleAuthButton from "@/components/buttons/GoogleAuthButton";
-import {register} from "next/dist/client/components/react-dev-overlay/pages/client";
+import { register } from "next/dist/client/components/react-dev-overlay/pages/client";
 
 export default function Registerform() {
   const router = useRouter();
@@ -112,17 +111,16 @@ export default function Registerform() {
 
         {/* Terms and Conditions */}
         <div className={styles.termsCheckbox}>
-          <input
-            type="checkbox"
-            id="terms"
-            {...register("terms")}
-            />
+          <input type="checkbox" id="terms" {...register("terms")} />
           <label htmlFor="terms">
-            I accept the <a href="/terms" target="_blank">Terms and Conditions</a>
+            I accept the{" "}
+            <a href="/terms" target="_blank">
+              Terms and Conditions
+            </a>
           </label>
         </div>
         {errors.terms && (
-        <p className={styles.errorText}>{errors.terms.message}</p>
+          <p className={styles.errorText}>{errors.terms.message}</p>
         )}
 
         <PrimaryButton
@@ -132,9 +130,20 @@ export default function Registerform() {
           loading={isLoading}
         />
 
-        <div className={styles.divider}>or</div>
+        <Box sx={{ my: 1, textAlign: "center", color: "text.secondary" }}>
+          Continue with
+        </Box>
 
-      <GoogleAuthButton mode="signup" />
+        <PrimaryButton
+          buttonText="Google"
+          type="button"
+          sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "red" } }}
+          onClick={() =>
+            router.push(
+              `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
+            )
+          }
+        />
 
         <div className={styles.alreadyHaveAccount}>
           <span>

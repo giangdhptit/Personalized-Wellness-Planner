@@ -10,7 +10,6 @@ export const AuthGuard = ({ children }) => {
   const { isAuthRoute, isDashboardRoute } = useRouteType();
   const router = useRouter();
   const currentUser = useSelector(getCurrentUser);
-  console.log(currentUser);
   const isLoggedIn = Boolean(currentUser?.id);
 
   useEffect(() => {

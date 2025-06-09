@@ -27,8 +27,7 @@ export default function VerifyOtp() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2>Verify OTP</h2>
-      <input {...register("otp")}
-             placeholder="Enter the OTP sent to email" />
+      <input {...register("otp")} placeholder="Enter the OTP sent to email" />
       <PrimaryButton type="submit" buttonText="Verify OTP" />
     </form>
   );

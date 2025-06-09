@@ -4,7 +4,7 @@ import ForgotPassword from "@/shared/components/auth/forgotpassword/index";
 import VerifyOtp from "@/shared/components/auth/forgotpassword/verifyOtp";
 import ResetPassword from "@/shared/components/auth/forgotpassword/resetPassword";
 
-export default function ForgotPasswordRouter() {
+export default function ForgotPasswordPage() {
   const params = useSearchParams();
   const step = params.get("step");
   const email = params.get("email");
