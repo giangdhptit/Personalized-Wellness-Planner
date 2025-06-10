@@ -1,23 +1,14 @@
-"use client";
-
-import React from "react";
-import styles from "@/components/auth/register/styles.module.css";
+import * as React from 'react';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox'
 import Link from "next/link";
 
-export default function Checkbox({register, errors}) {
+export default function CheckboxLabels({isChecked, setIsChecked, label='',sx}) {
   return (
-      <div className={styles.termsCheckbox}>
-          <input type="checkbox" id="terms" {...register("terms")} />
-          <label htmlFor="terms">
-            I accept the{" "}
-              <Link href="/terms" target="_blank"
-                    rel="noopener noreferrer">
-                  Terms and Conditions
-              </Link>
-          </label>
-        {errors.terms && (
-          <p className={styles.errorText}>{errors.terms.message}</p>
-        )}
-        </div>
-        );
+    <FormGroup sx={{ display: "flex", flexDirection: "row", alignItems: "center", ...sx }}>
+      <FormControlLabel control={<Checkbox checked={isChecked} onChange={() => setIsChecked(!isChecked)} />} label={label} />
+            <Link href={'/terms'} style={{marginLeft:-12}}>Terms and Conditions</Link>
+    </FormGroup>
+  );
 }
