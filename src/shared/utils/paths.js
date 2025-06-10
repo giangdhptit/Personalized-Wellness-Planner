@@ -13,6 +13,7 @@ export const AUTH_ROUTES = {
   login: path(AUTH_ROOT, "/login"),
   register: path(AUTH_ROOT, "/register"),
   forgotPassword: path(AUTH_ROOT, "/forgotpassword"),
+  termsAndConditions: path(AUTH_ROOT, "/terms"),
 };
 
 export const DASHBOARD_ROUTES = {
