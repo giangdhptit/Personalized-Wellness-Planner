@@ -24,10 +24,12 @@ import { AUTH_ROUTES } from "@/shared/utils/paths";
 // Redux
 import { register } from "next/dist/client/components/react-dev-overlay/pages/client";
 import Checkbox from "@/components/checkboxs";
+import {useState} from "react";
 
 export default function Registerform() {
   const router = useRouter();
   const { isLoading, onSubmitFunction } = useSubmitFunction();
+  const [isAccepted, setIsAccepted] = useState(false);
   const {
     handleSubmit,
     control,
@@ -111,13 +113,14 @@ export default function Registerform() {
         </Grid>
 
         {/* Terms and Conditions */}
-        <Checkbox register={register} errors={errors.terms} />
+        <Checkbox sx={{mt: 0.5}} register={register}  setIsChecked={setIsAccepted} label="I accept the" isChecked={isAccepted} />
 
         <PrimaryButton
           buttonText="Create Account"
           type="submit"
-          sx={{ mt: 2.5 }}
+          sx={{ mt: 2 }}
           loading={isLoading}
+          disabled={!isAccepted}
         />
 
         <Box sx={{ my: 1, textAlign: "center", color: "text.secondary" }}>
