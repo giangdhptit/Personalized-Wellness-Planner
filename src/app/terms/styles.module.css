@@ -1,0 +1,65 @@
+.container {
+  max-width: 550px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 35px;
+  font-weight: 600;
+  line-height: 62px;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.subTitle {
+  color: #94a3b8;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+
+.termsContent {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-top: 20px;
+}
+
+.termsList {
+  padding-left: 20px;
+}
+
+.termsItem {
+  margin-bottom: 15px;
+}
+
+.termsItem strong {
+  color: #1d4ed8;
+}
+
+.divider {
+  text-align: center;
+  margin: 5px 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  color: #888;
+}
+
+.link {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #007aff;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: center;
+}
+
+@media screen and (max-width: 576px) {
+  .title {
+    font-size: 30px;
+  }
+}

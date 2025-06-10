@@ -23,6 +23,7 @@ import { AUTH_ROUTES } from "@/shared/utils/paths";
 
 // Redux
 import { register } from "next/dist/client/components/react-dev-overlay/pages/client";
+import Checkbox from "@/components/checkboxs";
 
 export default function Registerform() {
   const router = useRouter();
@@ -110,18 +111,7 @@ export default function Registerform() {
         </Grid>
 
         {/* Terms and Conditions */}
-        <div className={styles.termsCheckbox}>
-          <input type="checkbox" id="terms" {...register("terms")} />
-          <label htmlFor="terms">
-            I accept the{" "}
-            <a href="/terms" target="_blank">
-              Terms and Conditions
-            </a>
-          </label>
-        </div>
-        {errors.terms && (
-          <p className={styles.errorText}>{errors.terms.message}</p>
-        )}
+        <Checkbox register={register} errors={errors.terms} />
 
         <PrimaryButton
           buttonText="Create Account"
