@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 export default function TermsPage() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Wellness Planner Terms and Conditions</h1>
+      <h1 className={styles.title}>Terms and Conditions</h1>
       <div className={styles.content}>
         <p><strong>Last Updated: 05/30/2025 </strong></p>
 
