@@ -25,6 +25,8 @@ import { AUTH_ROUTES } from "@/shared/utils/paths";
 import { register } from "next/dist/client/components/react-dev-overlay/pages/client";
 import Checkbox from "@/components/checkboxs";
 import {useState} from "react";
+import {createUser, } from "@/shared/redux/slices/user";
+import {dispatch} from "@/shared/redux/store";
 
 export default function Registerform() {
   const router = useRouter();
@@ -39,16 +41,16 @@ export default function Registerform() {
   });
 
   const onSubmit = (data) => {
-    // const onSuccess = () => {
-    //   router.push(PRICE_ROOT);
-    // };
-    // onSubmitFunction({ reduxFunction: createUser, data, onSuccess });
+    const onSuccess = () => {
+          dispatch(setCurrentUser(data))
+    };
+    onSubmitFunction({ reduxFunction: createUser, data, onSuccess });
   };
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Join us today 👋</h1>
       <span className={styles.subTitle}>
-        Enter your personal details and start journey with us.
+        Enter your personal details and start your wellness journey with us.
       </span>
 
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -133,7 +135,7 @@ export default function Registerform() {
           sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "red" } }}
           onClick={() =>
             router.push(
-              `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
+             `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
             )
           }
         />
