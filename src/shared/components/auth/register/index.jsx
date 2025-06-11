@@ -5,6 +5,7 @@ import Link from "next/link";
 
 // MUI
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 // Components
 import ControlledPasswordInput from "@/shared/components/inputs/passwordInput";
@@ -21,11 +22,15 @@ import { registerUserSchema } from "@/shared/schemas/auth";
 import { AUTH_ROUTES } from "@/shared/utils/paths";
 
 // Redux
+import { register } from "next/dist/client/components/react-dev-overlay/pages/client";
+import Checkbox from "@/components/checkboxs";
+import { useState } from "react";
 import { createUser } from "@/shared/redux/slices/user";
 
 export default function Registerform() {
   const router = useRouter();
   const { isLoading, onSubmitFunction } = useSubmitFunction();
+  const [isAccepted, setIsAccepted] = useState(false);
   const {
     handleSubmit,
     control,
@@ -35,16 +40,13 @@ export default function Registerform() {
   });
 
   const onSubmit = (data) => {
-    // const onSuccess = () => {
-    //   router.push(PRICE_ROOT);
-    // };
-    // onSubmitFunction({ reduxFunction: createUser, data, onSuccess });
+    onSubmitFunction({ reduxFunction: createUser, data });
   };
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Join us today 👋</h1>
       <span className={styles.subTitle}>
-        Enter your personal details and start journey with us.
+        Enter your personal details and start your wellness journey with us.
       </span>
 
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -108,16 +110,41 @@ export default function Registerform() {
           </Grid>
         </Grid>
 
+        {/* Terms and Conditions */}
+        <Checkbox
+          sx={{ mt: 0.5 }}
+          register={register}
+          setIsChecked={setIsAccepted}
+          label="I accept the"
+          isChecked={isAccepted}
+        />
+
         <PrimaryButton
           buttonText="Create Account"
           type="submit"
-          sx={{ mt: 2.5 }}
+          sx={{ mt: 2 }}
           loading={isLoading}
+          disabled={!isAccepted}
+        />
+
+        <Box sx={{ my: 1, textAlign: "center", color: "text.secondary" }}>
+          Continue with
+        </Box>
+
+        <PrimaryButton
+          buttonText="Google"
+          type="button"
+          sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "red" } }}
+          onClick={() =>
+            router.push(
+              `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
+            )
+          }
         />
 
         <div className={styles.alreadyHaveAccount}>
           <span>
-            Don't have an account? <Link href={AUTH_ROUTES.login}>Login</Link>
+            Have an account? <Link href={AUTH_ROUTES.login}>Login</Link>
           </span>
         </div>
       </form>

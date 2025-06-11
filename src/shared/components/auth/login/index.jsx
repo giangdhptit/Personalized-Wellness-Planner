@@ -1,6 +1,10 @@
 "use client";
 import styles from "./styles.module.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+// MUI
+import Box from "@mui/material/Box";
 
 // Utils, Schemas, Hooks
 import useSubmitFunction from "@/shared/hooks/useSubmitFunction";
@@ -21,6 +25,7 @@ import { signInUser } from "@/shared/redux/slices/user";
 
 export default function Loginform() {
   const { isLoading, onSubmitFunction } = useSubmitFunction();
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -36,11 +41,12 @@ export default function Loginform() {
       data,
     });
   };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Welcome Back 👋</h1>
       <span className={styles.subTitle}>
-        To keep connected with us please login with your personal info
+        Stay connected with us please login with your personal info
       </span>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextInput
@@ -68,6 +74,21 @@ export default function Loginform() {
         <div className={styles.submitButtonWrapper}>
           <PrimaryButton buttonText={"Login"} loading={isLoading} />
         </div>
+
+        <Box sx={{ my: 1, textAlign: "center", color: "text.secondary" }}>
+          Continue with
+        </Box>
+
+        <PrimaryButton
+          buttonText="Google"
+          type="button"
+          sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "red" } }}
+          onClick={() =>
+            router.push(
+              `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
+            )
+          }
+        />
 
         <div className={styles.dontHaveAccount}>
           <span>

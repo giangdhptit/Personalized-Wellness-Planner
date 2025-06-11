@@ -63,17 +63,21 @@ export const signInUser =
 export const createUser =
   ({ firstName, lastName, email, password }) =>
   async (dispatch) => {
-    const { error } = await handleAsyncRequest({
+    const { error, body } = await handleAsyncRequest({
       dispatch,
       actions,
       requestFn: postRequest({ server: SERVERS.java.value }),
-      endpoint: "/users/signup",
+      endpoint: "/auth/signup",
       payload: { firstName, lastName, email, password },
       toastMessage: { success: { show: true }, error: { show: true } },
     });
-
     if (error) throw error;
+    dispatch(actions.setCurrentUser(body));
   };
+
+// Forget Password
+
+// Reset Password
 
 // state selector
 export const isUserLoading = (state) => state.user.isLoading;
