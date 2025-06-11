@@ -24,9 +24,8 @@ import { AUTH_ROUTES } from "@/shared/utils/paths";
 // Redux
 import { register } from "next/dist/client/components/react-dev-overlay/pages/client";
 import Checkbox from "@/components/checkboxs";
-import {useState} from "react";
-import {createUser, } from "@/shared/redux/slices/user";
-import {dispatch} from "@/shared/redux/store";
+import { useState } from "react";
+import { createUser } from "@/shared/redux/slices/user";
 
 export default function Registerform() {
   const router = useRouter();
@@ -41,9 +40,6 @@ export default function Registerform() {
   });
 
   const onSubmit = (data) => {
-    const onSuccess = () => {
-          dispatch(setCurrentUser(data))
-    };
     onSubmitFunction({ reduxFunction: createUser, data, onSuccess });
   };
   return (
@@ -115,7 +111,13 @@ export default function Registerform() {
         </Grid>
 
         {/* Terms and Conditions */}
-        <Checkbox sx={{mt: 0.5}} register={register}  setIsChecked={setIsAccepted} label="I accept the" isChecked={isAccepted} />
+        <Checkbox
+          sx={{ mt: 0.5 }}
+          register={register}
+          setIsChecked={setIsAccepted}
+          label="I accept the"
+          isChecked={isAccepted}
+        />
 
         <PrimaryButton
           buttonText="Create Account"
@@ -135,7 +137,7 @@ export default function Registerform() {
           sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "red" } }}
           onClick={() =>
             router.push(
-             `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
+              `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
             )
           }
         />

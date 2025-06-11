@@ -72,7 +72,7 @@ export const createUser =
       toastMessage: { success: { show: true }, error: { show: true } },
     });
     if (error) throw error;
-    console.log(body);
+    dispatch(actions.setCurrentUser(body));
   };
 
 // Forget Password
