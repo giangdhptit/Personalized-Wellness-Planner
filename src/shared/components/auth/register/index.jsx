@@ -40,7 +40,7 @@ export default function Registerform() {
   });
 
   const onSubmit = (data) => {
-    onSubmitFunction({ reduxFunction: createUser, data, onSuccess });
+    onSubmitFunction({ reduxFunction: createUser, data });
   };
   return (
     <div className={styles.container}>
