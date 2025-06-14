@@ -9,5 +9,8 @@
   "googleClientSecret": "GOOGLE_CLIENT_SECRET",
   "googleRedirectUri": "GOOGLE_REDIRECT_URI",
   "jiraClientId": "JIRA_CLIENT_ID",
-  "jiraClientSecret": "JIRA_CLIENT_SECRET"
+  "jiraClientSecret": "JIRA_CLIENT_SECRET",
+  "outlookClientId": "OUTLOOK_CLIENT_ID",
+  "outlookClientSecret": "OUTLOOK_CLIENT_SECRET",
+  "outlookTenantId": "OUTLOOK_TENANT_ID"
 }
