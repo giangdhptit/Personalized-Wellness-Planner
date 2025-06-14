@@ -72,7 +72,11 @@ export default function Loginform() {
         </div>
 
         <div className={styles.submitButtonWrapper}>
-          <PrimaryButton buttonText={"Login"} loading={isLoading} />
+          <PrimaryButton
+            buttonText="Login"
+            loading={isLoading}
+            sx={{ height: "50px" }}
+          />
         </div>
 
         <Box sx={{ my: 1, textAlign: "center", color: "text.secondary" }}>
@@ -82,7 +86,10 @@ export default function Loginform() {
         <PrimaryButton
           buttonText="Google"
           type="button"
-          sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "red" } }}
+          sx={{
+            backgroundColor: "red",
+            "&:hover": { backgroundColor: "red" },
+          }}
           onClick={() =>
             router.push(
               `${process.env.NEXT_PUBLIC_SERVER_JAVA_URL}/oauth2/authorization/google`
