@@ -79,21 +79,14 @@ export const createUser =
 
 // Reset Password
 
+// Logout
+export const signOutUser = () => (dispatch) => {
+  dispatch(resetAllSlices());
+};
+
 // state selector
 export const isUserLoading = (state) => state.user.isLoading;
 
 export const getUserErrors = (state) => state.user.error;
 
 export const getCurrentUser = (state) => state.user.currentUser;
-
-export const signOutUser = () => async (dispatch) => {
-  const { error } = await handleAsyncRequest({
-    dispatch,
-    actions,
-    requestFn: postRequest,
-    endpoint: `/users/logout`,
-    toastMessage: { success: { show: true }, error: { show: true } },
-  });
-  if (error) throw error;
-  dispatch(resetAllSlices());
-};

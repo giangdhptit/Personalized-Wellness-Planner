@@ -17,5 +17,8 @@ export const AUTH_ROUTES = {
 };
 
 export const DASHBOARD_ROUTES = {
-  home: path(DASHBOARD_ROOT, "/"),
+  home: path(DASHBOARD_ROOT, "/home"),
+  calander: path(DASHBOARD_ROOT, "/calander"),
+  accounts: path(DASHBOARD_ROOT, "/accounts"),
+  profile: path(DASHBOARD_ROOT, "/profile"),
 };
