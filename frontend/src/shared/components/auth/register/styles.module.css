@@ -1,0 +1,81 @@
+.title {
+  color: var(--primary-color);
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.subTitle {
+  color: #94a3b8;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.container {
+  max-width: 550px;
+  padding: 0 20px;
+}
+
+.form {
+  margin-top: 20px;
+}
+
+.alreadyHaveAccount {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: 500;
+}
+
+.alreadyHaveAccount a {
+  color: var(--primary-color);
+}
+
+.footer {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: 500;
+}
+
+.terms {
+  color: var(--primary-color);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.divider {
+  text-align: center;
+  margin: 5px 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  color: #888;
+}
+
+.termsCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.termsCheckbox label a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.errorText {
+  color: red;
+  font-size: 13px;
+  margin-top: -6px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 1920px) {
+  .container {
+    margin-top: 50px;
+  }
+}
