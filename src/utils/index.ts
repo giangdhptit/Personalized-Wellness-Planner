@@ -4,6 +4,7 @@ import validatorUtils from './validatorUtils';
 import googleUtils from './googleUtils';
 import jiraUtils from './jiraUtils';
 import jwtUtils from './jwtUtils';
+import outlookUtils from './outlookUtils';
 
 export {
   corsOrigin,
@@ -14,4 +15,5 @@ export {
   googleUtils,
   jiraUtils,
   jwtUtils,
+  outlookUtils,
 };
