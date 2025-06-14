@@ -28,10 +28,10 @@ export default function Sidebar({ handleToggle = () => {} }) {
     <Box>
       <Image
         src={"/images/dashboard/light-logo.png"}
-        alt="light-logo.svg"
-        width={100}
-        height={80}
-        style={{ margin: "0px 1px", cursor: "pointer" }}
+        alt="light-logo.png"
+        width={200}
+        height={70}
+        style={{ margin: "10px 0px 2px 10px", cursor: "pointer" }}
         priority
       />
 
